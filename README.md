@@ -48,8 +48,8 @@ library. Patches welcome.
 
 Contributors
 ------------
-davexunit
-mark_weaver
+* davexunit
+* mark_weaver
 
 License
 -------
