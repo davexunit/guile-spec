@@ -51,9 +51,7 @@
     (throw 'expect-error predicate args)))
 
 (define (indent-display text indent)
-  (define (make-indent)
-    (apply string-append (map (lambda (n) "\t") (iota indent))))
-  (display (make-indent))
+  (display (make-string indent #\tab))
   (display text)
   (newline))
 
