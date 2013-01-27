@@ -1,13 +1,13 @@
-(define-module (gspec suite)
+(define-module (spec suite)
   #:use-module (srfi srfi-9)
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 format)
   #:use-module (ice-9 pretty-print)
   #:export (describe
             expect
-            gspec-run))
+            spec-run))
 
-(define-record-type <gspec-suite>
+(define-record-type <spec-suite>
   (make-suite description before-each after-each specs)
   suite?
   (description suite-description)
@@ -15,20 +15,20 @@
   (after-each suite-after-each)
   (specs suite-specs))
 
-(define-record-type <gspec-spec>
+(define-record-type <spec-spec>
   (make-spec description test)
   spec?
   (description spec-description)
   (test spec-test))
 
-(define-record-type <gspec-results>
+(define-record-type <spec-results>
   (make-results pass fail errors)
-  gspec-results?
+  spec-results?
   (pass results-pass)
   (fail results-fail)
   (errors results-errors))
 
-(define-record-type <gspec-error>
+(define-record-type <spec-error>
   (make-spec-error description predicate args)
   spec-error?
   (description spec-error-description)
@@ -78,7 +78,7 @@
         " "))
   (string-append prefix (separator) description))
 
-(define (gspec-run suites)
+(define (spec-run suites)
   (define (print-results results)
     (newline)
     (format #t "~d passing specs\n" (results-pass results))

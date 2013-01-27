@@ -3,7 +3,7 @@
 
 ;; Bootstrap
 (add-to-load-path "./module")
-(use-modules (gspec suite)
+(use-modules (spec suite)
              (ice-9 getopt-long))
 
 (define option-spec
@@ -13,7 +13,7 @@
 (define options (getopt-long (command-line) option-spec))
 
 (define (run-specs)
-  (gspec-run (map load (option-ref options '() #f))))
+  (spec-run (map load (option-ref options '() #f))))
 
 (define (main)
   (define (help-wanted?)
@@ -21,10 +21,10 @@
   (define (version-wanted?)
     (option-ref options 'version #f))
   (cond ((help-wanted?)
-         (display "gspec [files]\n")
+         (display "guile-spec [files]\n")
          (exit))
         ((version-wanted?)
-         (display "gspec version 0.1")
+         (display "guile-spec version 0.1")
          (exit)))
  (run-specs))
 
