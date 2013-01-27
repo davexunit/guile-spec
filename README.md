@@ -39,7 +39,17 @@ Stubbing
 Stubs are used to better isolate the code under test. The `stub` form
 inserts a procedure into a module that returns an arbitrary value,
 replacing what was there before. The previous binding is restored
-before leaving the form. `#f` is the default return value.
+before leaving the form.
+
+Syntax-wise, it resembles a `let` form, but with a module name before
+the list of stubbed procedures.
+
+```scheme
+(stub (module name)
+  ((procedure-name (return value)) ...) ...)
+```
+
+The `return` form is optional. `#f` is returned by default.
 
 ```scheme
 (describe "guile-spec README"
