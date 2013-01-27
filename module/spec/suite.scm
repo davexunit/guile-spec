@@ -4,6 +4,7 @@
   #:use-module (ice-9 format)
   #:use-module (ice-9 pretty-print)
   #:export (describe
+            it
             expect
             spec-run))
 
