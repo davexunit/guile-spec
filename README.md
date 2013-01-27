@@ -8,15 +8,31 @@ Test Suites
 Test suites encapsulate test cases, called specs. Test suites are
 created with the `describe` form. `describe` forms can be nested.
 
+```scheme
+(describe "guile-spec README" ...)
+```
+
 Specs
 -----
 Specs contain expectations of the code under test. Specs are created
 with the `it` form within a `describe` form.
 
+```scheme
+(describe "guile-spec README"
+   (it "provides useful information") ...)
+```
+
 Expectations
 ------------
 A spec must have all true expectations to pass. Any predicate can be
 used as a matcher.
+
+```scheme
+(describe "guile-spec README"
+   (it "provides useful information"
+     (let ((information "useful"))
+       (expect equal? (readme) information))))
+```
 
 Trivial Example
 ---------------
