@@ -31,7 +31,7 @@ used as a matcher.
 (describe "guile-spec README"
    (it "provides useful information"
      (let ((information "useful"))
-       (expect equal? (readme) information))))
+       (expect string=? (readme) information))))
 ```
 
 Trivial Example

@@ -71,7 +71,7 @@
 (define (prefix-description prefix description)
   (define (separator)
     ;; Don't add a space if prefix is empty.
-    (if (eq? prefix "")
+    (if (string=? prefix "")
         ""
         " "))
   (string-append prefix (separator) description))
