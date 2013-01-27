@@ -123,6 +123,10 @@
 
 ;; Author: Mark Weaver
 ;; aka the most helpful person on #guile
+(define-syntax-parameter it
+  (lambda (stx)
+    (syntax-violation 'it "it used outside of describe form" stx)))
+
 (define-syntax %describe
   (syntax-rules (before-each after-each)
     ((%describe desc before after (before-each body ...) rest ...)
