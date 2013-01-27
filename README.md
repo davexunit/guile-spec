@@ -34,6 +34,22 @@ used as a matcher.
        (expect string=? (readme) information))))
 ```
 
+Stubbing
+--------
+Stubs are used to better isolate the code under test. The `stub` form
+inserts a procedure into a module that returns an arbitrary value,
+replacing what was there before. The previous binding is restored
+before leaving the form. `#f` is the default return value.
+
+```scheme
+(describe "guile-spec README"
+  (let ((val "foo"))
+    (stub (guile-spec README)
+      ((stubbing-section (return val)))
+      (it "has a section about stubbing"
+        (expect string=? (stubbing-section) val)))))
+```
+
 Trivial Example
 ---------------
 ```scheme
