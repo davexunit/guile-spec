@@ -47,7 +47,12 @@ Trivial Example
 
 Things that are missing
 -----------------------
-mocking, stubbing, spying, good debug information, colored output, etc.
+* mocking
+* stubbing
+* spying
+* good debug information
+* error handling
+* colored output
 
 Usage
 -----
