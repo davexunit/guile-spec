@@ -1,7 +1,7 @@
-GSpec
-=====
+Guile-spec
+==========
 
-GSpec is an RSpec/Jasmine-like testing framework for Guile Scheme.
+Guile-spec is an RSpec/Jasmine-like BDD testing library for Guile Scheme.
 
 Test Suites
 -----------
@@ -18,17 +18,33 @@ Expectations
 A spec must have all true expectations to pass. Any predicate can be
 used as a matcher.
 
+Trivial Example
+---------------
+```scheme
+(describe "#append"
+  (it "concatenates 2 or more lists"
+    (let ((a '(1))
+          (b '(2))
+          (c '(3)))
+      (expect equal? (append a b c) '(1 2 3)))))
+```
+
+Things that are missing
+-----------------------
+mocking, stubbing, spying, good debug information, colored output, etc.
+
 Usage
 -----
 ```
-$ gspec spec/my_spec.scm
+$ guile-spec spec/my_spec.scm
 ```
+
+Note: the result of calling `load` on a spec file *must* be a `<spec-suite>`.
 
 Hacking
 -------
-GSpec isn't very feature-rich currently. Patches are very welcome.
-Please refer to the TODO org-mode file to see what needs to be done,
-or improve/implement something that you feel is missing. :)
+There are tons of features missing to make this a real BDD
+library. Patches welcome.
 
 Contributors
 ------------
