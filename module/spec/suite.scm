@@ -30,11 +30,12 @@
   (errors results-errors))
 
 (define-record-type <spec-error>
-  (make-spec-error description predicate args)
+  (make-spec-error description key args stack)
   spec-error?
   (description spec-error-description)
-  (predicate spec-error-predicate)
-  (args spec-error-args))
+  (key spec-error-key)
+  (args spec-error-args)
+  (stack spec-error-stack))
 
 (define (empty-results)
   (make-results 0 0 '()))
@@ -57,15 +58,17 @@
   (newline))
 
 (define (display-spec-error error)
-  (define (indent)
-    (display "  "))
-  (indent)
-  (display "spec: ")
+  (display (make-string 20 #\=))
+  (newline)
+  (display "Spec: ")
   (display (spec-error-description error))
   (newline)
-  (indent)
-  (pretty-print (cons (procedure-name (spec-error-predicate error))
-                      (car (spec-error-args error))))
+  (display "Exception: ")
+  (display (spec-error-key error))
+  (newline)
+  (pretty-print (spec-error-args error))
+  (newline)
+  (display-backtrace (spec-error-stack error) (current-output-port))
   (newline)
   (newline))
 
@@ -84,6 +87,7 @@
     (format #t "~d failing specs\n" (results-fail results))
     (newline)
     (display "Errors:\n")
+    (newline)
     (for-each display-spec-error (results-errors results)))
   (print-results (reduce combine-results (empty-results)
                          (map (lambda (suite) (run-suite suite "" 0)) suites))))
@@ -109,18 +113,24 @@
   (define (spec-pass)
     (indent-display (spec-description spec) indent)
     (make-results 1 0 '()))
-  (define (spec-fail predicate . args)
+  (define (spec-fail key args stack)
     (define (description)
       (prefix-description desc-prefix (spec-description spec)))
     (indent-display (spec-text "FAIL ") indent)
-    (make-results 0 1 (list (make-spec-error (description)
-                                             predicate args))))
-  (catch 'expect-error
-    (lambda ()
-      ((spec-test spec))
-      (spec-pass))
-    (lambda (key . args)
-      (apply spec-fail args))))
+    (make-results 0 1 (list (make-spec-error (description) key args stack))))
+  ;; We don't want to let an exception crash our test run.
+  ;; Instead we'll capture the stack and save it to be printed out
+  ;; after all of the tests have run.
+  (let ((stack #f))
+    (catch #t
+      (lambda ()
+        ((spec-test spec))
+        (spec-pass))
+      (lambda (key . args)
+        (pretty-print args)
+        (spec-fail key args stack))
+      (lambda (key . args)
+        (set! stack (make-stack #t))))))
 
 ;; Author: Mark Weaver
 ;; aka the most helpful person on #guile
